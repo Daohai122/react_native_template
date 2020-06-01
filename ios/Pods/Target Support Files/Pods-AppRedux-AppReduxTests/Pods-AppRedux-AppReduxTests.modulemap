@@ -1,0 +1,6 @@
+module Pods_AppRedux_AppReduxTests {
+  umbrella header "Pods-AppRedux-AppReduxTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

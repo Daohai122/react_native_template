@@ -1,6 +1,10 @@
-import {FETCH_USER, FETCH_SUCCSES, FETCH_FAILED} from '../Actions/ActionTypes'
+import {
+  FETCH_USER,
+  FETCH_SUCCSES,
+  FETCH_FAILED,
+} from "../Actions/ActionTypes";
 
-const LoginReducers = (user = {name:'', age:''}, action) => {
+const LoginReducers = (user = { name: "", age: "" }, action) => {
   switch (action.type) {
     case FETCH_SUCCSES:
       return action.user;
@@ -9,5 +13,5 @@ const LoginReducers = (user = {name:'', age:''}, action) => {
     default:
       return user;
   }
-}
+};
 export default LoginReducers;

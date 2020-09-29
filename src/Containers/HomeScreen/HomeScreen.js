@@ -30,7 +30,7 @@ class HomeScreen extends Component {
           <Header
             leftFunction={() => this.props.navigation.openDrawer()}
             IconLeft={{ name: "menu", type: "Ionicons" }}
-            title={"Bệnh án điện tử"}
+            title={"Home"}
             NoNavHeader
           />
         </SafeAreaView>

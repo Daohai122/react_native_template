@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "AppRedux-tvOS.app"
-               BlueprintName = "AppRedux-tvOS"
-               ReferencedContainer = "container:AppRedux.xcodeproj">
+               BuildableName = "BackTest-tvOS.app"
+               BlueprintName = "BackTest-tvOS"
+               ReferencedContainer = "container:BackTest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "AppRedux-tvOSTests.xctest"
-               BlueprintName = "AppRedux-tvOSTests"
-               ReferencedContainer = "container:AppRedux.xcodeproj">
+               BuildableName = "BackTest-tvOSTests.xctest"
+               BlueprintName = "BackTest-tvOSTests"
+               ReferencedContainer = "container:BackTest.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "AppRedux-tvOS.app"
-            BlueprintName = "AppRedux-tvOS"
-            ReferencedContainer = "container:AppRedux.xcodeproj">
+            BuildableName = "BackTest-tvOS.app"
+            BlueprintName = "BackTest-tvOS"
+            ReferencedContainer = "container:BackTest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "AppRedux-tvOS.app"
-            BlueprintName = "AppRedux-tvOS"
-            ReferencedContainer = "container:AppRedux.xcodeproj">
+            BuildableName = "BackTest-tvOS.app"
+            BlueprintName = "BackTest-tvOS"
+            ReferencedContainer = "container:BackTest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

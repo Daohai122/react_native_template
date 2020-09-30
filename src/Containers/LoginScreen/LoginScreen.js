@@ -39,12 +39,12 @@ function LoginScreen({ onFetchUser, user, navigation }) {
         <View style={{ flex: 0.2 }} />
         <View>
           <Input
-            value={user.age}
+            value={login.UserName}
             placeholder="Tài khoản"
             onChangeText={(text) => handerChange(text, "UserName")}
           />
           <Input
-            value={user.name}
+            value={login.PassWord}
             placeholder="Mật khẩu"
             onChangeText={(text) => handerChange(text, "PassWord")}
           />

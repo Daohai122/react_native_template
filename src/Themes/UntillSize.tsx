@@ -7,7 +7,9 @@ export const utilsSize = {
   normalFontSize: 14,
   smallFontSize: 13,
   memSizeText: 15,
+  marginLogin:20,
   titleFontSize: 17,
+  heightInput: 45,
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
   navBarHeight:

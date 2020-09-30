@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../../Themes";
+import { Colors, UtillSize } from "../../Themes";
 const styles = StyleSheet.create({
     Container: {
-        flex:1, 
+        flex: 1, 
+        backgroundColor: Colors.mainColor
     },
     button: {
         paddingHorizontal:15,
@@ -12,9 +13,50 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignSelf:'center'
     },
-    text: {
-        fontSize: 18,
-        color:'red'
+    wrapHeader: {
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    textTitleHeader: {
+        fontFamily:'Optima-Regular',
+        letterSpacing: 3,
+        fontWeight: 'bold',
+        color:'#fff'
+    },
+    textDesHeader: {
+        color: '#fff',
+        letterSpacing: 5
+    },
+    wrapViewContent: {
+        marginHorizontal: UtillSize.marginLogin
+    },
+    viewInput: {
+        height: UtillSize.heightInput,
+        borderRadius: 10,
+        borderWidth:1,
+        borderColor: '#fff',
+        marginBottom: 15
+    },
+    ButtonLogin: {
+        backgroundColor: '#fff',
+        height: UtillSize.heightInput,
+        borderRadius: 10,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    wrapTextForgot: {
+        paddingVertical: 10,
+        marginBottom: 10,
+        alignItems:'flex-end'
+    },
+    textForGot: {
+        color: "#fff",
+        fontSize: UtillSize.memSizeText
+    },
+    textLogin: {
+        color: Colors.mainColor,
+        fontWeight: 'bold',
+        fontSize: UtillSize.titleFontSize
     }
 });
 export default styles;

@@ -6,8 +6,8 @@
  */
 
 export default {
-  colorNav: "#102027",
-  mainColor: "#37474f",
+  colorNav: "#b53d00",
+  mainColor: "#f36a20",
   transparent: "rgba(0,0,0,0)",
   // Example colors:
   white: "#ffffff",
@@ -15,4 +15,6 @@ export default {
   primary: "#007bff",
   success: "#28a745",
   error: "#dc3545",
+  boderInput: '#eef2f4',
+  backgroundInput: '#fbfbfb'
 };

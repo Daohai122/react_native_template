@@ -14,7 +14,7 @@ import {
 
 import allReducers from "./src/Redux/Reducers";
 import RootSaga from "./src/Sagas/RootSaga";
-import CallApi from "./src/Api/CallApi";
+import CallApi from "./src/Api/Mushroom";
 import FlashMessage from "react-native-flash-message";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -29,7 +29,6 @@ class App extends Component{
   }
   async componentDidMount() {
     console.log('vao')
-    await CallApi.OnStart();
     this.setState({
       Loading: false
     })

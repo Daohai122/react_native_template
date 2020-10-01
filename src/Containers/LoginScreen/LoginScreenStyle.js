@@ -2,8 +2,7 @@ import { StyleSheet } from "react-native";
 import { Colors, UtillSize } from "../../Themes";
 const styles = StyleSheet.create({
     Container: {
-        flex: 1, 
-        backgroundColor: Colors.mainColor
+        flex: 1
     },
     button: {
         paddingHorizontal:15,
@@ -34,11 +33,12 @@ const styles = StyleSheet.create({
         height: UtillSize.heightInput,
         borderRadius: 10,
         borderWidth:1,
-        borderColor: '#fff',
-        marginBottom: 15
+        borderColor: Colors.boderInput,
+        marginBottom: 15,
+        backgroundColor: Colors.backgroundInput
     },
     ButtonLogin: {
-        backgroundColor: '#fff',
+        backgroundColor: Colors.mainColor,
         height: UtillSize.heightInput,
         borderRadius: 10,
         justifyContent:'center',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         fontSize: UtillSize.memSizeText
     },
     textLogin: {
-        color: Colors.mainColor,
+        color: Colors.white,
         fontWeight: 'bold',
         fontSize: UtillSize.titleFontSize
     }

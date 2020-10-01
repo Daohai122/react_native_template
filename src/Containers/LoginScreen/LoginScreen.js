@@ -1,25 +1,24 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState } from "react";
 import { Images } from "../../Themes";
 import styles from "./LoginScreenStyle";
 import {
-  SafeAreaView,
   Text,
   StatusBar,
   View,
   TouchableOpacity,
   Keyboard,
+  Image
 } from "react-native";
 import { Input } from "react-native-elements";
 import { Icon } from "native-base";
-import CallApi from "../../Api/CallApi";
-import RequestApi from "../../Api/Api";
 import { StackActions } from "@react-navigation/native";
 import { ShowMessage, HideMessage } from "../../Components/Message";
 import * as Animatable from 'react-native-animatable';
-import { UtillSize } from "../../Themes";
-import { NavHeader } from "../../Components/Header";
+import { NavHeader, Header } from "../../Components/Header";
 import { connect } from "react-redux";
 import { fetchUserAction } from "../../Redux/Actions";
+import Mushroom from "../../Api/Mushroom";
+import { Colors } from "../../Themes";
 
 function LoginScreen({ onFetchUser, user, navigation }) {
   const [login, ChangeLogin] = useState({ UserName: "", PassWord: "" });
@@ -35,7 +34,7 @@ function LoginScreen({ onFetchUser, user, navigation }) {
       return;
     }
     this.ViewAnimate.transitionTo({flex: 0.3});
-    this.ViewAnimateTextTitle.transitionTo({fontSize: 55});
+    this.ViewAnimateTextTitle.transitionTo({width: '40%'});
     // this.ViewAnimateTextDes.transitionTo({fontSize: UtillSize.smallFontSize});
     ChangeShowKeyboard(true);
   }
@@ -45,7 +44,7 @@ function LoginScreen({ onFetchUser, user, navigation }) {
       'keyboardDidHide',
       () => {
         this.ViewAnimate.transitionTo({flex: 0.5});
-        this.ViewAnimateTextTitle.transitionTo({fontSize: 75});
+        this.ViewAnimateTextTitle.transitionTo({width: '55%'});
         // this.ViewAnimateTextDes.transitionTo({fontSize: UtillSize.memSizeText});
         ChangeShowKeyboard(false);
       }
@@ -56,66 +55,77 @@ function LoginScreen({ onFetchUser, user, navigation }) {
     };
   }, []);
   const demoCallApi = async () => {
-    console.log(onFetchUser, user);
-    await onFetchUser();
-    navigation.dispatch(StackActions.replace("HomeScreen"));
+    if(!login.UserName || (login.UserName && !login.UserName.trim())) {
+      ShowMessage('Please input your user!','danger');
+      return;
+    }
+    if(!login.PassWord || (login.PassWord && !login.PassWord.trim())) {
+      ShowMessage('Please input your password!','danger');
+      return;
+    }
+    let res = await Mushroom.$auth.loginAsync(login.UserName, login.PassWord, true);
+    if(res && res.result) {
+      navigation.dispatch(StackActions.replace("HomeScreen"));
+    }
   };
 
   return (
     <View style={styles.Container}>
       <StatusBar barStyle="light-content" />
-      <NavHeader style={{backgroundColor: 'transparent'}}/>
-      <View style={styles.Container}>
+      <NavHeader style={{backgroundColor: Colors.mainColor}}/>
+      <Header title='Sign in' NoNavHeader/>
+      <View style={[styles.Container, {backgroundColor: Colors.white}]}>
         <Animatable.View ref={(ref) => this.ViewAnimate = ref} style={[styles.wrapHeader, { flex: showKeyboard ? 0.2 : 0.5 }]}>
-          <Animatable.Text ref={(ref) => this.ViewAnimateTextTitle = ref} style={[styles.textTitleHeader, { fontSize: showKeyboard ? 45 : 65 }]}>BackTest</Animatable.Text>
+          <Animatable.Image ref={(ref) => this.ViewAnimateTextTitle = ref} source={Images.LogoLogin} style={{width: showKeyboard ? '40%' : '55%'}} resizeMode='contain'/>
+          {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextTitle = ref} style={[styles.textTitleHeader, { fontSize: showKeyboard ? 45 : 65 }]}>BackTest</Animatable.Text> */}
           {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextDes = ref} style={[styles.textDesHeader, { fontSize: showKeyboard ? UtillSize.memSizeText : UtillSize.smallFontSize }]}>ASSITANT</Animatable.Text> */}
         </Animatable.View>
         <View style={styles.wrapViewContent}>
-          <View style={styles.viewInput}>
-            <Input
-              placeholder='Your user'
-              placeholderTextColor='#fff'
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              inputStyle={{ color: '#fff' }}
-              value={login.UserName}
-              onChangeText={(e) => handerChange(e, 'UserName')}
-              onFocus={() => openKeyboard()}
-              leftIcon={
-                <Icon
-                  type='EvilIcons'
-                  name='user'
-                  style={{ color: '#fff', fontSize: 35 }}
-                />
-              }
-            />
-          </View>
-          <View style={styles.viewInput}>
-            <Input
-              placeholder='Your password'
-              value={login.PassWord}
-              onChangeText={(e) => handerChange(e, 'PassWord')}
-              secureTextEntry
-              placeholderTextColor='#fff'
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              inputStyle={{ color: '#fff' }}
-              onFocus={() => openKeyboard()}
-              leftIcon={
-                <Icon
-                  name='lock'
-                  size={24}
-                  type='EvilIcons'
-                  style={{ color: '#fff', fontSize: 35 }}
-                />
-              }
-            />
-          </View>
-          <View style={styles.wrapTextForgot}>
+          <Input
+            keyboardType='default'
+            autoCapitalize= "none"
+            placeholder='Your user'
+            placeholderTextColor='#b3b3b3'
+            inputContainerStyle={{ borderBottomWidth: 0 }}
+            inputStyle={{ color: '#b3b3b3' }}
+            containerStyle={styles.viewInput}
+            value={login.UserName}
+            onChangeText={(e) => handerChange(e, 'UserName')}
+            onFocus={() => openKeyboard()}
+            leftIcon={
+              <Icon
+                type='EvilIcons'
+                name='user'
+                style={{ color: '#b3b3b3', fontSize: 35 }}
+              />
+            }
+          />
+          <Input
+            placeholder='Your password'
+            value={login.PassWord}
+            onChangeText={(e) => handerChange(e, 'PassWord')}
+            secureTextEntry
+            placeholderTextColor='#b3b3b3'
+            containerStyle={styles.viewInput}
+            inputContainerStyle={{ borderBottomWidth: 0 }}
+            inputStyle={{ color: '#b3b3b3' }}
+            onFocus={() => openKeyboard()}
+            leftIcon={
+              <Icon
+                name='lock'
+                size={24}
+                type='EvilIcons'
+                style={{ color: '#b3b3b3', fontSize: 35 }}
+              />
+            }
+          />
+          {/* <View style={styles.wrapTextForgot}>
             <TouchableOpacity>
               <Text style={styles.textForGot}>Forgot your password?</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <TouchableOpacity style={styles.ButtonLogin} onPress={(() => demoCallApi())}>
-            <Text style={styles.textLogin}>Login</Text>
+            <Text style={styles.textLogin}>Sign in</Text>
           </TouchableOpacity>
         </View>
       </View>

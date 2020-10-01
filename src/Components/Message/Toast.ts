@@ -1,5 +1,5 @@
-import { showMessage, hideMessage } from "react-native-flash-message";
-const ShowMessage = (text, type, time, position) => {
+import { showMessage, hideMessage, MessageType, Position } from "react-native-flash-message";
+const ShowMessage = (text: string, type: MessageType, time: number, position: Position) => {
     showMessage({
         message: text,
         type: type,

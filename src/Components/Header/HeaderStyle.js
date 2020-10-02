@@ -3,8 +3,9 @@ import  {Colors , UtillSize} from "../../Themes";
 
 const styles = StyleSheet.create({
     navBar: {
-        height: UtillSize.navBarHeight,
-        backgroundColor: Colors.colorNav,
+      zIndex: 2,
+      height: UtillSize.navBarHeight,
+      backgroundColor: Colors.colorNav,
     },
     viewHeader: {
       height: UtillSize.headerHeight,

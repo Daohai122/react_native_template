@@ -4,18 +4,23 @@ import {
   StatusBar,
   View,
   StyleSheet,
-  Text
+  Text,
+  Animated
 } from "react-native";
 import { NavHeader, Header } from "../../Components/Header";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Colors } from "../../Themes";
-import TabIcon from "../../Components/TabIcon/TabIcon";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Colors, UtillSize } from "../../Themes";
+import TabTop from "../../Components/TabIcon/TabTop";
+import SearchScreen from "../SearchScreen";
+const Tab = createMaterialTopTabNavigator();
 
-const Tab = createBottomTabNavigator();
-
+const NAVBAR_HEIGHT = UtillSize.headerHeight;
 class HomeScreen extends Component {
+  scroll = new Animated.Value(0);
+  headerY;
   constructor(props) {
     super(props);
+    this.headerY = Animated.multiply(Animated.diffClamp(this.scroll, 0, NAVBAR_HEIGHT), -1);
     this.state = {
       indexTabActive: 0,
       configTab: [
@@ -64,52 +69,59 @@ class HomeScreen extends Component {
     }, 1000);
   }
   render() {
-    console.log(this.props.user);
+    const tabY = Animated.add(this.scroll, this.headerY);
     return (
-      <View style={{ flex: 1,  backgroundColor: Colors.white }}>
+      <View style={{ flex: 1, backgroundColor: Colors.white }}>
         <StatusBar barStyle="light-content" />
         <NavHeader />
         <SafeAreaView style={{ flex: 1 }}>
-          <Header
-            // leftFunction={() => this.props.navigation.openDrawer()}
-            // IconLeft={{ name: "menu", type: "Ionicons" }}
-            title={"Home"}
-            NoNavHeader
-          />
-           {this.state.configTab?
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                const configTabIcon = this.state.configTab.find(e => e.screen == route.name);              
-                return (
-                  <TabIcon
-                    content={{
-                      nameIcon: configTabIcon.icon.nameIcon,
-                      typeIcon: configTabIcon.icon.typeIcon,
-                      title: configTabIcon.icon.title,
-                      number: configTabIcon.icon.number,
-                      isActive: focused,
-                    }}
-                  />
-                );
-              },
-            })}
-            tabBarOptions={{
-              showLabel: false,
-              style: {height: 70}
-            }}
-            
-          >
-            {this.state.configTab.map((item, index) => {
-              return (
-                <Tab.Screen name={item.screen} key={index}>
-                  {/* {(props) => <DanhSachComponent {...props} />} */}
-                  {(props) => <View style={{flex: 1}}><Text>{item.screen}</Text></View>}
-                </Tab.Screen>
-              );
-            })}          
-          </Tab.Navigator>
-          :<View/>}
+          <Animated.View style={{
+            width: "100%",
+            position: "absolute",
+            transform: [{
+              translateY: this.headerY
+            }],
+            zIndex: 1,
+          }}>
+            <Header
+              // leftFunction={() => this.props.navigation.openDrawer()}
+              // IconLeft={{ name: "menu", type: "Ionicons" }}
+              title={"Home"}
+              NoNavHeader
+            />
+          </Animated.View>
+          <Animated.ScrollView
+            scrollEventThrottle={1}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            style={{ zIndex: 0, height: "100%", elevation: -1 }}
+            contentContainerStyle={{ paddingTop: NAVBAR_HEIGHT }}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: this.scroll } } }],
+              { useNativeDriver: true },
+            )}
+            overScrollMode="never">
+            {this.state.configTab ?
+              <Tab.Navigator
+                tabBar={props => <Animated.View
+                  style={{
+                    transform: [{translateY: tabY}],
+                    zIndex: 1,
+                    width: "100%",
+                    backgroundColor: Colors.white
+                  }}><TabTop {...props} configTab={this.state.configTab} /></Animated.View>}
+              >
+                {this.state.configTab.map((item, index) => {
+                  return (
+                    <Tab.Screen name={item.screen} key={index}>
+                      {/* {(props) => <SearchScreen {...props} />} */}
+                      {(props) => <View style={{ height: 1600}}><Text>{item.screen}</Text></View>}
+                    </Tab.Screen>
+                  );
+                })}
+              </Tab.Navigator>
+              : <View />}
+          </Animated.ScrollView>
         </SafeAreaView>
       </View>
     );

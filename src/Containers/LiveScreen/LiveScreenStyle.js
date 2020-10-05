@@ -45,6 +45,16 @@ const styles = StyleSheet.create({
         fontSize: UtillSize.normalFontSize,
         paddingVertical: 7
     },
+    wrapElementResult: {
+        width: (UtillSize.screenWidth - UtillSize.margin*4)/4,
+        justifyContent:'center',
+        alignItems: 'center'
+    },
+    wrapElementNumber: {
+        width: (UtillSize.screenWidth - UtillSize.margin*4)/3,
+        justifyContent:'center',
+        alignItems: 'center'
+    },
     wrapNumber: {
         backgroundColor: Colors.mainColor,
         paddingVertical: 5,
@@ -58,6 +68,11 @@ const styles = StyleSheet.create({
     },
     textListResult: {
         color: "#757575"
+    },
+    textNumberLast: {
+        color: Colors.mainColor, 
+        textAlign: 'center', 
+        fontSize: 16
     }
     
 });

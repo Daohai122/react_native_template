@@ -5,6 +5,7 @@ import styles from "./LiveScreenStyle";
 const NAVBAR_HEIGHT = UtillSize.headerHeight;
 import LiveApi from "./LiveApi";
 import InputNumber from "../../Components/inputNumber";
+import { Icon } from 'native-base';
 function convertResultData(data) {
     let dataReturn = [];
     data.forEach(i => {
@@ -24,6 +25,12 @@ function convertResultData(data) {
     });
     return dataReturn;
 }
+const widthMethod = 60;
+const widthCondition = 70;
+const widthNumber = 55;
+const widthMaxAll = 55;
+const widthMaxToday = 75;
+
 export default function LiveScreen({ navigation, scroll }) {
     const [listResult, setListResult] = useState([]);
     const [listLast, setListLast] = useState([]);
@@ -62,14 +69,40 @@ export default function LiveScreen({ navigation, scroll }) {
                     <Text style={styles.textResultHeader}>RESULT</Text>
                 </View>
                 <View style={styles.WrapContentResult}>
-                    <ScrollView>
+                    <View style={styles.resultElement}>
+                        <View style={[styles.wrapElementResult, { width: widthMethod }]}>
+                            <Text>Method</Text>
+                        </View>
+                        <View style={[styles.wrapElementResult, { width: widthCondition }]}>
+                            <Text>Condition</Text>
+                        </View>
+                        <View style={[styles.wrapElementResult, { width: widthMaxAll }]}>
+                            <Text>Max all</Text>
+                        </View>
+                        <View style={[styles.wrapElementResult, { width: widthMaxToday }]}>
+                            <Text>Max today</Text>
+                        </View>
+                    </View>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         {listResult.map((e, i) => {
                             return (
                                 <View style={styles.resultElement} key={i}>
-                                    <Text>{'N' + i}</Text>
-                                    <Text style={styles.textListResult}>{e.number.length < 6 ? e.number.join(', ') : e.number.slice(0, 5).join(', ') + ' ...'}</Text>
-                                    <View style={styles.wrapNumber}>
-                                        <Text style={styles.colorNumber}>{e.max}</Text>
+                                    <View style={[styles.wrapElementResult, { width: widthMethod }]}>
+                                        <Text>{'N' + i}</Text>
+                                    </View>
+                                    <View style={[styles.wrapElementResult, { width: widthCondition }]}>
+                                        <Text>5</Text>
+                                    </View>
+                                    <View style={[styles.wrapElementResult, { width: widthMaxAll }]}>
+                                        <Text style={styles.textListResult}>3</Text>
+                                    </View>
+                                    <View style={[styles.wrapElementResult, { alignItems: 'flex-end', width: widthMaxToday }]}>
+                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                            <View style={[styles.wrapNumber, { marginRight: 5 }]}>
+                                                <Text style={styles.colorNumber}>{e.max}</Text>
+                                            </View>
+                                            <Icon name='arrow-forward' type='Ionicons' style={{ color: '#bdbdbd', fontSize: 20 }} />
+                                        </View>
                                     </View>
                                 </View>
                             )
@@ -82,26 +115,46 @@ export default function LiveScreen({ navigation, scroll }) {
                     <Text style={styles.textResultHeader}>LASTEST NUMBER </Text>
                 </View>
                 <View style={styles.WrapContentResult}>
-                    <ScrollView>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            {listLast.map((e, i) => {
-                                return (
-                                    <View style={{ width: (UtillSize.screenWidth - 72) / 4, marginRight: 3 }} key={i}>
-                                        <View style={{ paddingVertical: 5, backgroundColor: "#f5f5f5", alignItems: 'center' }}>
-                                            <Text>{e.MethodName}</Text>
-                                        </View>
-                                        <View style={{ alignItems: 'center', paddingVertical: 5 }}>
-                                            <Text>{e.Count}</Text>
-                                        </View>
-                                    </View>
-                                )
-                            })}
+                    <View style={styles.resultElement}>
+                        <View style={[styles.wrapElementNumber, { width: widthMethod }]}>
+                            <Text>Method</Text>
                         </View>
+                        <View style={[styles.wrapElementNumber, { width: widthCondition }]}>
+                            <Text>Condition</Text>
+                        </View>
+                        <View style={[styles.wrapElementNumber, { width: widthMaxAll }]}>
+                            <Text>Max all</Text>
+                        </View>
+                        <View style={[styles.wrapElementNumber, { width: widthNumber }]}>
+                            <Text>Number</Text>
+                        </View>
+                    </View>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        {listLast.map((e, i) => {
+                            return (
+                                <View style={styles.resultElement} key={i}>
+                                    <View style={[styles.wrapElementNumber, { width: widthMethod }]}>
+                                        <Text>{e.MethodName}</Text>
+                                    </View>
+                                    <View style={[styles.wrapElementNumber, { width: widthCondition }]}>
+                                        <Text>5</Text>
+                                    </View>
+                                    <View style={[styles.wrapElementNumber, { width: widthMaxAll }]}>
+                                        <Text>5</Text>
+                                    </View>
+                                    <View style={styles.wrapElementNumber, { width: widthNumber }}>
+                                        {/* <View style={styles.wrapNumber}> */}
+                                        <Text style={styles.textNumberLast}>{e.Count}</Text>
+                                        {/* </View> */}
+                                    </View>
+                                </View>
+                            )
+                        })}
                     </ScrollView>
                 </View>
             </View>
             {/* </Animated.ScrollView> */}
-            <InputNumber/>
+            <InputNumber />
         </View>
     )
 }

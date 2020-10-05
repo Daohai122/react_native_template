@@ -11,10 +11,11 @@ export default {
   transparent: "rgba(0,0,0,0)",
   // Example colors:
   white: "#ffffff",
-  text: "#212529",
+  text: "#616161",
   primary: "#007bff",
   success: "#28a745",
   error: "#dc3545",
   boderInput: '#eef2f4',
-  backgroundInput: '#fbfbfb'
+  backgroundInput: '#fbfbfb',
+  borderColor: '#e0e0e0'
 };

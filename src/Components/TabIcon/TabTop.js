@@ -37,7 +37,7 @@ export default function TabTop({ state, descriptors, navigation, position , conf
             style={styles.WrapTab}
           >
             <Animated.View style={[styles.TabStyle, {backgroundColor: isFocused ? Colors.mainColor : Colors.white}]}>
-              <Animated.Text style={{color: isFocused ? Colors.white : '#000'}}>
+              <Animated.Text style={{color: isFocused ? Colors.white : '#616161'}}>
                 {configTabIcon.icon.title}
               </Animated.Text>
             </Animated.View>

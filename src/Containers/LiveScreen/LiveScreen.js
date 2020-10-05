@@ -1,140 +1,107 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, ScrollView } from 'react-native';
-import { Table, Row, Rows, Col, TableWrapper } from 'react-native-table-component';
-
-const ww = 40;
-
-export default class LiveScreen extends Component {
-constructor(props) {
-super(props);
-this.state = {
-};
-this.headerIsScrolling = false;
-this.rowsIsScrolling = false;
+import React, { useState, useEffect } from 'react'
+import { View, Text, Animated, ScrollView, TouchableOpacity } from "react-native";
+import { Colors, UtillSize } from "../../Themes";
+import styles from "./LiveScreenStyle";
+const NAVBAR_HEIGHT = UtillSize.headerHeight;
+import LiveApi from "./LiveApi";
+import InputNumber from "../../Components/inputNumber";
+function convertResultData(data) {
+    let dataReturn = [];
+    data.forEach(i => {
+        if (i.MethodName.indexOf('nei') !== -1) {
+            const index = dataReturn.findIndex(e => e.name === i.MethodName);
+            if (index === -1) {
+                dataReturn.push({
+                    name: i.MethodName,
+                    number: [i.Number],
+                    max: i.Count
+                })
+            } else {
+                dataReturn[index].number.push(i.Number);
+                dataReturn[index].number.sort((a, b) => a - b);
+            }
+        }
+    });
+    return dataReturn;
 }
+export default function LiveScreen({ navigation, scroll }) {
+    const [listResult, setListResult] = useState([]);
+    const [listLast, setListLast] = useState([]);
+    useEffect(() => {
+        async function getResult() {
+            try {
+                const resp = await LiveApi.getNumbersAsync('5f6087597e6b4b144468c8d8', new Date(), 0);
+                console.log('resp', resp);
+                if (resp && resp.result) {
+                    resp.result[0] && resp.result[0].LiveData && setListResult(convertResultData(resp.result[0].LiveData));
+                    resp.result[1] && resp.result[1].LiveData && setListLast(resp.result[1].LiveData);
+                }
+            } catch (err) {
+                console.log('loi', err)
+            }
 
-genHeaderData = () => {
-    const tableData = [];
-    for (let i = 2; i <= 36; i += 1) {
-        tableData.push(i);
-    }
-    return [tableData];
-}
-
-genColData = () => {
-    const tableData = [];
-    for (let i = 1; i <= 30; i += 1) {
-        tableData.push(`Col~(${i})`);
-    }
-    return tableData;
-}
-
-genRowsData = () => {
-    const arr1 = [];
-    const arr2 = [];
-    for (let i = 2; i <= 36; i += 1) {
-        arr1.push(i);
-    }
-    for (let j = 1; j <= 30; j += 1) {
-        arr2.push(arr1);
-    }
-    return arr2;
-}
-
-render() {
-    const state = this.state;
+        }
+        getResult();
+    }, [])
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <View style={{ flexDirection: 'row' }}>
-                    <Table
-                        borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}
-                    >
-                        <TableWrapper style={{ width: 40 }}>
-                            <Col
-                                data={[0]}
-                                textStyle={styles.text}
-                                style={{ backgroundColor: '#537791' }}
-                                widthArr={[ww]}
-                                heightArr={[60]}
-                            />
-                        </TableWrapper>
-                    </Table>
-                    <ScrollView
-                        horizontal
-                        ref={(view) => { this.headerScrollView = view; }}
-                        showsHorizontalScrollIndicator={false}
-                        scrollEventThrottle={16}
-                        onScroll={(event, x) => {
-                            {
-                                console.log('rows水平滚动距离======>', event.nativeEvent);//水平滚动距离
-                                const offsetX = event.nativeEvent.contentOffset.x;
-                                if (!this.headerIsScrolling) {
-                                    this.rowsIsScrolling = true;
-                                    this.rowsScrollView.scrollTo({ x: offsetX, animated: false });
-                                }
-                                this.headerIsScrolling = false;
-                            }
-                        }}
-                    >
-                        <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-                            <Rows
-                                data={this.genHeaderData()}
-                                textStyle={styles.text}
-                                style={{ height: 60, backgroundColor: '#537791' }}
-                                widthArr={[ww, ww, ww, ww, ww, ww, ww, ww, ww, ww]}
-                            />
-                        </Table>
+        <View style={[styles.Container, { paddingTop: NAVBAR_HEIGHT }]}>
+            {/* <Animated.ScrollView
+                scrollEventThrottle={1}
+                bounces={false}
+                showsVerticalScrollIndicator={false}
+                style={{ zIndex: 0, height: "100%", elevation: -1 }}
+                contentContainerStyle={{ paddingTop: NAVBAR_HEIGHT }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scroll } } }],
+                    { useNativeDriver: true },
+                )}
+                overScrollMode="never"> */}
+            <View style={styles.wrapResult}>
+                <View style={styles.resultHeader}>
+                    <Text style={styles.textResultHeader}>RESULT</Text>
+                </View>
+                <View style={styles.WrapContentResult}>
+                    <ScrollView>
+                        {listResult.map((e, i) => {
+                            return (
+                                <View style={styles.resultElement} key={i}>
+                                    <Text>{'N' + i}</Text>
+                                    <Text style={styles.textListResult}>{e.number.length < 6 ? e.number.join(', ') : e.number.slice(0, 5).join(', ') + ' ...'}</Text>
+                                    <View style={styles.wrapNumber}>
+                                        <Text style={styles.colorNumber}>{e.max}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })}
                     </ScrollView>
                 </View>
-            </ScrollView>
-            <ScrollView>
-                <View style={{ flexDirection: 'row' }}>
-                    <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-                        <TableWrapper style={{ width: 40 }}>
-                            <Col
-                                data={this.genColData()}
-                                textStyle={styles.text}
-                                heightArr={[40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]}
-                            />
-                        </TableWrapper>
-                    </Table>
-                    <ScrollView
-                        horizontal={true}
-                        ref={(view) => { this.rowsScrollView = view; }}
-                        scrollEventThrottle={16}
-                        onScroll={(event) => {
-                            {
-                                console.log('rows水平滚动距离======>', event.nativeEvent);//水平滚动距离
-                                const offsetX = event.nativeEvent.contentOffset.x;
-                                if (!this.rigthIsScrolling) {
-                                    this.headerIsScrolling = true;
-                                    this.headerScrollView.scrollTo({ x: offsetX });
-                                    this.headerScrollView.scrollTo({ x: offsetX, animated: false, });
-
-                                }
-                                this.rigthIsScrolling = false;
-                            }
-                        }}
-                    >
-                        <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-                            <Rows
-                                data={this.genRowsData()}
-                                textStyle={styles.text}
-                                style={{ height: 40 }}
-                                widthArr={[ww, ww, ww, ww, ww, ww, ww, ww, ww, ww]}
-                            />
-                        </Table>
+            </View>
+            <View style={[styles.wrapResult]}>
+                <View style={styles.resultHeader}>
+                    <Text style={styles.textResultHeader}>LASTEST NUMBER </Text>
+                </View>
+                <View style={styles.WrapContentResult}>
+                    <ScrollView>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            {listLast.map((e, i) => {
+                                return (
+                                    <View style={{ width: (UtillSize.screenWidth - 72) / 4, marginRight: 3 }} key={i}>
+                                        <View style={{ paddingVertical: 5, backgroundColor: "#f5f5f5", alignItems: 'center' }}>
+                                            <Text>{e.MethodName}</Text>
+                                        </View>
+                                        <View style={{ alignItems: 'center', paddingVertical: 5 }}>
+                                            <Text>{e.Count}</Text>
+                                        </View>
+                                    </View>
+                                )
+                            })}
+                        </View>
                     </ScrollView>
                 </View>
-            </ScrollView>
+            </View>
+            {/* </Animated.ScrollView> */}
+            <InputNumber/>
         </View>
-    );
+    )
 }
-}
-
-const styles = StyleSheet.create({
-container: { flex: 1, paddingTop: 40, backgroundColor: '#fff' },
-text: { margin: 6 },
-});

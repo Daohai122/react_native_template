@@ -6,8 +6,8 @@
  */
 
 export default {
-  colorNav: "#b53d00",
-  mainColor: "#f36a20",
+  colorNav: "#451088",
+  mainColor: "#10054d",
   transparent: "rgba(0,0,0,0)",
   // Example colors:
   white: "#ffffff",

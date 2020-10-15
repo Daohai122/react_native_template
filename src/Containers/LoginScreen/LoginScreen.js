@@ -14,11 +14,13 @@ import { Icon } from "native-base";
 import { StackActions } from "@react-navigation/native";
 import { ShowMessage, HideMessage } from "../../Components/Message";
 import * as Animatable from 'react-native-animatable';
-import { NavHeader, Header } from "../../Components/Header";
+// import { NavHeader, Header } from "../../Components/Header";
 import { connect } from "react-redux";
 import { fetchUserAction } from "../../Redux/Actions";
 import Mushroom from "../../Api/Mushroom";
 import { Colors } from "../../Themes";
+import LinearGradient from 'react-native-linear-gradient';
+
 
 function LoginScreen({ onFetchUser, user, navigation }) {
   const [login, ChangeLogin] = useState({ UserName: "", PassWord: "" });
@@ -71,15 +73,17 @@ function LoginScreen({ onFetchUser, user, navigation }) {
 
   return (
     <View style={styles.Container}>
-      <StatusBar barStyle="light-content" />
+      {/* <StatusBar barStyle="light-content" />
       <NavHeader style={{backgroundColor: Colors.mainColor}}/>
-      <Header title='Sign in' NoNavHeader/>
-      <View style={[styles.Container, {backgroundColor: Colors.white}]}>
+      <Header title='Sign in' NoNavHeader/> */}
+      <LinearGradient colors={['#451088', '#10054d']} style={styles.Container}>
+      <View style={[styles.Container]}>
         <Animatable.View ref={(ref) => this.ViewAnimate = ref} style={[styles.wrapHeader, { flex: showKeyboard ? 0.2 : 0.5 }]}>
-          <Animatable.Image ref={(ref) => this.ViewAnimateTextTitle = ref} source={Images.LogoLogin} style={{width: showKeyboard ? '40%' : '55%'}} resizeMode='contain'/>
+          <Animatable.Image ref={(ref) => this.ViewAnimateTextTitle = ref} source={require('../../Assets/Images/Logo_UV.png')} style={{width: showKeyboard ? '40%' : '55%'}} resizeMode='contain'/>
           {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextTitle = ref} style={[styles.textTitleHeader, { fontSize: showKeyboard ? 45 : 65 }]}>BackTest</Animatable.Text> */}
           {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextDes = ref} style={[styles.textDesHeader, { fontSize: showKeyboard ? UtillSize.memSizeText : UtillSize.smallFontSize }]}>ASSITANT</Animatable.Text> */}
         </Animatable.View>
+        <Image source={require('../../Assets/Images/background_login.jpg')} style={{width: 100, height: 100}}/>
         <View style={styles.wrapViewContent}>
           <Input
             keyboardType='default'
@@ -129,6 +133,7 @@ function LoginScreen({ onFetchUser, user, navigation }) {
           </TouchableOpacity>
         </View>
       </View>
+      </LinearGradient>
     </View>
   );
 }

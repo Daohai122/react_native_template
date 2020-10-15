@@ -77,10 +77,10 @@ export default function LiveScreen({ navigation, scroll }) {
                             <Text>Condition</Text>
                         </View>
                         <View style={[styles.wrapElementResult, { width: widthMaxAll }]}>
-                            <Text>Max all</Text>
+                            <Text>Max</Text>
                         </View>
                         <View style={[styles.wrapElementResult, { width: widthMaxToday }]}>
-                            <Text>Max today</Text>
+                            <Text>Latest</Text>
                         </View>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -123,7 +123,7 @@ export default function LiveScreen({ navigation, scroll }) {
                             <Text>Condition</Text>
                         </View>
                         <View style={[styles.wrapElementNumber, { width: widthMaxAll }]}>
-                            <Text>Max all</Text>
+                            <Text>Max</Text>
                         </View>
                         <View style={[styles.wrapElementNumber, { width: widthNumber }]}>
                             <Text>Number</Text>

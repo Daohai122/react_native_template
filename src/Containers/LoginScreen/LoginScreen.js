@@ -83,7 +83,6 @@ function LoginScreen({ onFetchUser, user, navigation }) {
           {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextTitle = ref} style={[styles.textTitleHeader, { fontSize: showKeyboard ? 45 : 65 }]}>BackTest</Animatable.Text> */}
           {/* <Animatable.Text ref={(ref) => this.ViewAnimateTextDes = ref} style={[styles.textDesHeader, { fontSize: showKeyboard ? UtillSize.memSizeText : UtillSize.smallFontSize }]}>ASSITANT</Animatable.Text> */}
         </Animatable.View>
-        <Image source={require('../../Assets/Images/background_login.jpg')} style={{width: 100, height: 100}}/>
         <View style={styles.wrapViewContent}>
           <Input
             keyboardType='default'

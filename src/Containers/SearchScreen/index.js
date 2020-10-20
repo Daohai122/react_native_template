@@ -7,14 +7,15 @@ import { Icon } from "native-base";
 import RouletteNumberService from "../LiveScreen/LiveApi";
 import styles from "./searchStyle";
 import moment from "moment";
-const Labels = ({ slices, height, width }) => {
+const Labels = ({ slices, height, width, innerRadius }) => {
   return slices.map((slice, index) => {
     const { labelCentroid, pieCentroid, data } = slice;
+    const tile = innerRadius? 1.3 : 1.7
     return (<>
       {data.amount ? <TextSvg
         key={index}
-        x={labelCentroid[0] * 1.3}
-        y={labelCentroid[1] * 1.3}
+        x={labelCentroid[0] * tile}
+        y={labelCentroid[1] * tile}
         fill={'white'}
         textAnchor={'middle'}
         alignmentBaseline={'middle'}
@@ -41,7 +42,7 @@ const fomartDataForPice = (data) => {
   });
   return dataResult;
 }
-const RenderChart = ({ data, NumberRecomment }) => {
+const RenderChart = ({ data, NumberRecomment, innerRadius }) => {
   return (
     <View style={{ flex: 1 }}>
       <PieChart
@@ -51,9 +52,9 @@ const RenderChart = ({ data, NumberRecomment }) => {
         // spacing={2}
         outerRadius={'100%'}
         padAngle={0.01}
-        innerRadius={'30%'}
+        innerRadius={innerRadius?'30%': 0}
       >
-        <Labels />
+        <Labels innerRadius={innerRadius} />
         {NumberRecomment && <TextSvg
           x={0}
           y={0}
@@ -106,7 +107,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (search number)</Text>
         </View>
-        <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} />
+        <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} innerRadius={true}/>
         <View style={styles.wrapSearch}>
           <TouchableOpacity style={styles.buttonSearch}>
             <Icon style={{ color: 'white', fontSize: 24 }} name='search' type='Feather' />

@@ -16,7 +16,7 @@ function SplashScreen({ navigation }) {
       const res = await Mushroom.$auth.statusAsync();
       if(res) {
         navigation.dispatch(
-          StackActions.replace('LoginScreen')
+          StackActions.replace('HomeScreen')
         );
       } else {
         navigation.dispatch(

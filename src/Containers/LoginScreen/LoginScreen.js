@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Images } from "../../Themes";
 import styles from "./LoginScreenStyle";
 import {
   Text,
-  StatusBar,
   View,
   TouchableOpacity,
   Keyboard,
-  Image
 } from "react-native";
 import { Input } from "react-native-elements";
 import { Icon } from "native-base";
 import { StackActions } from "@react-navigation/native";
-import { ShowMessage, HideMessage } from "../../Components/Message";
+import { ShowMessage } from "../../Components/Message";
 import * as Animatable from 'react-native-animatable';
-// import { NavHeader, Header } from "../../Components/Header";
-import { connect } from "react-redux";
-import { fetchUserAction } from "../../Redux/Actions";
 import Mushroom from "../../Api/Mushroom";
-import { Colors } from "../../Themes";
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -136,22 +129,4 @@ function LoginScreen({ onFetchUser, user, navigation }) {
     </View>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.LoginReducers,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchUser: () => {
-      dispatch(fetchUserAction());
-    },
-  };
-};
-
-const LoginContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginScreen);
-export default LoginContainer;
+export default LoginScreen;

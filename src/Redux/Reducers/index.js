@@ -1,8 +1,7 @@
 import { combineReducers } from "redux";
-import LoginReducers from "./LoginReducers";
-
+import TableReducers from "./Table";
  const allReducers = combineReducers({
-    LoginReducers,
+    TableReducers
      // them reducer vao day
  });
  export default allReducers;

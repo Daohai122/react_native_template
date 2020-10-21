@@ -107,7 +107,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (search number)</Text>
         </View>
-        <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} innerRadius={true}/>
+        {/* <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} innerRadius={true}/> */}
         <View style={styles.wrapSearch}>
           <TouchableOpacity style={styles.buttonSearch}>
             <Icon style={{ color: 'white', fontSize: 24 }} name='search' type='Feather' />
@@ -118,7 +118,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (all numbers)</Text>
         </View>
-        <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} />
+        {/* <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} /> */}
       </View>
 
     </View>

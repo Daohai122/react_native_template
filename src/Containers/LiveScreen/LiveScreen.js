@@ -143,9 +143,7 @@ export default function LiveScreen({ navigation, scroll }) {
                                         <Text>5</Text>
                                     </View>
                                     <View style={styles.wrapElementNumber, { width: widthNumber }}>
-                                        {/* <View style={styles.wrapNumber}> */}
                                         <Text style={styles.textNumberLast}>{e.Count}</Text>
-                                        {/* </View> */}
                                     </View>
                                 </View>
                             )

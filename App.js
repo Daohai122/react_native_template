@@ -28,7 +28,6 @@ class App extends Component{
     }
   }
   async componentDidMount() {
-    console.log('vao')
     this.setState({
       Loading: false
     })

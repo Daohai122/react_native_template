@@ -7,10 +7,8 @@ import {
   import { put, takeLatest, call } from "redux-saga/effects";
   
   function* fetchTable() {
-    alert('vao')
      try {
       const res = yield list();
-      console.log('ket qia', res)
       yield put({ type: FETCH_TABLE_SUCCSES, table: res.result??[] });
     } catch (error) {
      yield put({ type: FETCH_TABLE_FAILED, error: error });

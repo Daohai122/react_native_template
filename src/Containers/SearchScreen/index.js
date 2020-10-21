@@ -49,13 +49,12 @@ const RenderChart = ({ data, NumberRecomment, innerRadius }) => {
         style={styles.styleChart}
         valueAccessor={({ item }) => item.amount}
         data={data}
-        // spacing={2}
         outerRadius={'100%'}
         padAngle={0.01}
         innerRadius={innerRadius?'30%': 0}
       >
-        <Labels innerRadius={innerRadius} />
-        {NumberRecomment && <TextSvg
+        <Labels key={Math.random()} innerRadius={innerRadius} />
+        {NumberRecomment && innerRadius && <TextSvg
           x={0}
           y={0}
           fill={'red'}
@@ -107,7 +106,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (search number)</Text>
         </View>
-        {/* <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} innerRadius={true}/> */}
+        <RenderChart data={dataPieAll} NumberRecomment={NumberRecomment} innerRadius={true}/>
         <View style={styles.wrapSearch}>
           <TouchableOpacity style={styles.buttonSearch}>
             <Icon style={{ color: 'white', fontSize: 24 }} name='search' type='Feather' />
@@ -118,7 +117,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (all numbers)</Text>
         </View>
-        {/* <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} /> */}
+        <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} />
       </View>
 
     </View>

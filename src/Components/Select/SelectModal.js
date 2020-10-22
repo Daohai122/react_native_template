@@ -22,11 +22,14 @@ export default class SelectModal extends Component {
 
     selectItem(item) {
         this.closeModal();
-        this.props.getItem(item);
         this.setState({
             valueSearch: '',
             selectId: item[this.ConfigSelect.id],
             openModal: false
+        }, () => {
+            setTimeout(() => {
+                this.props.getItem(item);
+            }, 300)
         });
 
     }
@@ -89,7 +92,6 @@ export default class SelectModal extends Component {
                                         </TouchableOpacity>
                                     )
                                 }
-
                             })}
                         </ScrollView>
                         :

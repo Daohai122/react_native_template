@@ -6,7 +6,6 @@ import {
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import StylesShare from '../style/styles';
 import SelectModalReactNative from './SelectModal';
 
 export default class SelectComponent extends Component {
@@ -86,7 +85,6 @@ export default class SelectComponent extends Component {
                 </View>
                 <SelectModalReactNative
                     ref ={ref => {this.ModalSelect = ref}}
-                    // closeModal={() => this.openModal()}
                     openModal={this.state.openModal}
                     data={this.state.data}
                     getItem={this.props.getSelectData}

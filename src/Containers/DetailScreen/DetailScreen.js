@@ -11,7 +11,7 @@ function DetailScreen(props) {
   const [tableSlect, settableSlect] = useState({});
   const modalView = useRef();
   useEffect(() => {
-    // props.onFetchTable();
+    props.onFetchTable();
   }, []);
 
   function handleSelectTable(table) {

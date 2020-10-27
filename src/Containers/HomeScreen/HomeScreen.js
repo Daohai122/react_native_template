@@ -29,16 +29,6 @@ class HomeScreen extends Component {
       indexTabActive: 0,
       configTab: [
         {
-          screen: "LiveScreen",
-          component: LiveScreen,
-          icon: {
-            nameIcon: "live-tv",
-            typeIcon: "MaterialIcons",
-            title: "Live",
-            // number: 0,
-          },
-        },
-        {
           screen: "DetailScreen",
           component: DetailScreen,
           icon: {
@@ -48,6 +38,17 @@ class HomeScreen extends Component {
             // number: 0,
           },
         },
+        {
+          screen: "LiveScreen",
+          component: LiveScreen,
+          icon: {
+            nameIcon: "live-tv",
+            typeIcon: "MaterialIcons",
+            title: "Live",
+            // number: 0,
+          },
+        },
+       
         {
           screen: "SearchScreen",
           component: SearchScreen,

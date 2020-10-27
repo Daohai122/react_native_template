@@ -22,7 +22,7 @@ function DetailScreen(props) {
  
   async function getListData() {
     try {
-      const res = await RouletteNumberService.getNumbersAsync('5f6087597e6b4b144468c8d8', new Date(), 1, TabSelect.id);
+      const res = await RouletteNumberService.getNumbersAsync('5f69828bcc8cab17b8d82577', new Date(), 1, TabSelect.id);
       if(res && res.result && res.result.DetailData && res.result.DetailData.length > 0) {
         setDataTableRender(res.result);
       }

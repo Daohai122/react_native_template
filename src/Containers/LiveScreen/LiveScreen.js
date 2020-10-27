@@ -29,7 +29,7 @@ const widthMethod = 60;
 const widthCondition = 70;
 const widthNumber = 55;
 const widthMaxAll = 55;
-const widthMaxToday = 75;
+const widthMaxToday = 70;
 
 export default function LiveScreen({ navigation, scroll }) {
     const [listResult, setListResult] = useState([]);

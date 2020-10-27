@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, ScrollView, Text } from 'react-native';
-import { Table, Row, Rows, Col, TableWrapper } from 'react-native-table-component';
+import { Table, Row, Rows, Col, TableWrapper, Cell } from 'react-native-table-component';
 import ConverData from "./ConverData";
-const ww = 50;
+import NumberColor from "../../HistoryScreen/NumberColor";
+const ww = 35;
 const hightColumn = 30;
-export default class ExampleOne extends Component {
+export default class TableExcel extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,11 +19,6 @@ export default class ExampleOne extends Component {
         this.headerIsScrolling = false;
         this.rowsIsScrolling = false;
     }
-    // componentWillReceiveProps(nextProps, prevState){
-    //     if(nextProps && nextProps.dataRender && nextProps.dataRender.DetailData.length > 0 &&  nextProps.dataRender != prevState.dataRender) {
-    //         this.getData(nextProps.dataRender);
-    //     }
-    // }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.dataRender && this.props.dataRender.DetailData.length > 0 && this.props.dataRender != prevProps.dataRender) {
             this.getData(this.props.dataRender);
@@ -58,43 +54,13 @@ export default class ExampleOne extends Component {
             });
             i < 2 && dataRender.header.push(header);
             i < 2 && dataRender.headerFix.push(headerFix);
-            i > 2 && dataRender.body.push(body);
-            i > 2 && dataRender.bodyFix.push(bodyFix);
+            i >= 2 && dataRender.body.push(body);
+            i >= 2 && dataRender.bodyFix.push(bodyFix);
         });
         this.setState({
             dataRender
         });
     };
-    // headertop
-    genHeaderData = () => {
-        const tableData = [];
-        for (let i = 2; i <= 20; i += 1) {
-            tableData.push(i);
-        }
-        return [tableData];
-    }
-
-    // content
-    genColData = () => {
-        const tableData = [];
-        for (let i = 1; i <= 30; i += 1) {
-            tableData.push(i);
-        }
-        return tableData;
-    }
-
-    // headerfor freez left
-    genRowsData = () => {
-        const arr1 = [];
-        const arr2 = [];
-        for (let i = 2; i <= 30; i += 1) {
-            arr1.push(i);
-        }
-        for (let j = 1; j <= 30; j += 1) {
-            arr2.push(arr1);
-        }
-        return arr2;
-    }
     getListWidth() {
         const data = this.state.dataRender.header;
         const listWidth = [];
@@ -107,7 +73,6 @@ export default class ExampleOne extends Component {
         return [];
     }
     render() {
-        const state = this.state;
         return (
             <View style={styles.container}>
                 {this.state.dataRender.body[0] && <>
@@ -129,7 +94,7 @@ export default class ExampleOne extends Component {
                                     scrollEventThrottle={5}
                                     onScroll={(event, x) => {
                                         {
-                                            console.log('row header scroll', event.nativeEvent);//水平滚动距离
+                                            console.log('row header scroll', event.nativeEvent);
                                             const offsetX = event.nativeEvent.contentOffset.x;
                                             if (!this.headerIsScrolling) {
                                                 this.rowsIsScrolling = true;
@@ -140,12 +105,17 @@ export default class ExampleOne extends Component {
                                     }}
                                 >
                                     <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-                                        <Rows
-                                            data={this.state.dataRender.header}
-                                            textStyle={styles.text}
-                                            style={{ height: hightColumn, backgroundColor: '#537791' }}
-                                            widthArr={this.getListWidth()}
-                                        />
+                                        {
+                                            this.state.dataRender.header.map((rowData, index) => (
+                                                <TableWrapper key={index} style={{ flexDirection: 'row', backgroundColor: '#537791' }}>
+                                                    {
+                                                        rowData.map((cellData, cellIndex) => (
+                                                            <Cell height={hightColumn} width={ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: index===0 ? 'yellow':'black'}]} />
+                                                        ))
+                                                    }
+                                                </TableWrapper>
+                                            ))
+                                        }
                                     </Table>
                                 </ScrollView>
                             </View>
@@ -154,12 +124,17 @@ export default class ExampleOne extends Component {
                     <ScrollView >
                         <View style={{ flexDirection: 'row' }}>
                             <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-                                <Rows
-                                    data={this.state.dataRender.bodyFix}
-                                    textStyle={styles.text}
-                                    style={{ height: hightColumn }}
-                                    widthArr={[ww, ww]}
-                                />
+                                {
+                                    this.state.dataRender.bodyFix.map((rowData, index) => (
+                                        <TableWrapper key={index} style={{ flexDirection: 'row' }}>
+                                            {
+                                                rowData.map((cellData, cellIndex) => (
+                                                    <Cell height={hightColumn} width={ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: cellIndex === 1 ? NumberColor[cellData] : 'black'}]} />
+                                                ))
+                                            }
+                                        </TableWrapper>
+                                    ))
+                                }
                             </Table>
                             <ScrollView
                                 horizontal={true}
@@ -189,7 +164,6 @@ export default class ExampleOne extends Component {
                         </View>
                     </ScrollView>
                 </>}
-
             </View>
         );
     }
@@ -197,5 +171,5 @@ export default class ExampleOne extends Component {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
-    text: { margin: 6 },
+    text: { fontSize: 14, textAlign: 'center' },
 });

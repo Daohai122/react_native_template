@@ -1,7 +1,10 @@
 import { combineReducers } from "redux";
 import TableReducers from "./Table";
+import DealerReducers from "./Dealer";
+
  const allReducers = combineReducers({
-    TableReducers
+    TableReducers,
+    DealerReducers
      // them reducer vao day
  });
  export default allReducers;

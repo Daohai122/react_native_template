@@ -32,7 +32,7 @@ const index = forwardRef((props, ref) => {
         <DateTimePickerModal
             maximumDate={new Date()}
             isVisible={isDatePickerVisible}
-            mode="date"
+            mode= {props.mode??"date"}
             date={selectDate}
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}

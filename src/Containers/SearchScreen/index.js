@@ -117,7 +117,7 @@ export default function SearchScreen() {
         <View style={styles.contentHeader}>
           <Text style={styles.textContentHeader}>Result (all numbers)</Text>
         </View>
-        <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} />
+        {/* <RenderChart data={dataPieForNumber} NumberRecomment={NumberRecomment} /> */}
       </View>
 
     </View>

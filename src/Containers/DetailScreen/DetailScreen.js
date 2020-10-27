@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import styles from "./DetailScreenStyle";
 import SelectTable from "../../Components/SelectTable";
 import { fetchTableAction } from "../../Redux/Actions/Table";
+import { fetchDealerAction } from "../../Redux/Actions/Dealer";
+
 import ModalSelectTable from "../../Components/ModalSelectTable";
 import { configTab } from "./ListMethod";
 import TableExcel from "./Table/TableExcel";
@@ -15,8 +17,9 @@ function DetailScreen(props) {
   const modalView = useRef();
   useEffect(() => {
     props.onFetchTable();
+    props.onFetchDealer();
   }, []);
-
+ 
   async function getListData() {
     try {
       const res = await RouletteNumberService.getNumbersAsync('5f6087597e6b4b144468c8d8', new Date(), 1, TabSelect.id);
@@ -48,11 +51,14 @@ function DetailScreen(props) {
 }
 const mapStateToProps = (state) => ({
   ListTable: state.TableReducers,
-  ListUser: state.LoginReducers
+  ListDealer: state.DealerReducer,
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onFetchDealer: () => {
+      dispatch(fetchDealerAction())
+    },
     onFetchTable: () => {
       dispatch(fetchTableAction());
     }

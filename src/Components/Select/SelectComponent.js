@@ -12,11 +12,11 @@ export default class SelectComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.title,
-            label: this.props.label,
-            data: this.props.data,
+            title: props.title,
+            label: props.label,
+            data: props.data,
             openModal: false,
-            disable: this.props.disable
+            disable: props.disable
         };
         this.openSelecter = this.openSelecter.bind(this);
     }
@@ -29,19 +29,33 @@ export default class SelectComponent extends Component {
         this.openModal();
     }
 
-    componentWillReceiveProps(prop) {
-        console.log(prop.data)
-        this.setState({
-            title: prop.title,
-            label: prop.label,
-            data: prop.data ? prop.data : this.state.data,
-        });
-        if(this.state.disable != prop.disable){
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.disable != prevProps.disable){
             this.setState({
                 disable: prop.disable
             })
+        };
+        if(this.props.data != this.state.data ) {
+            this.setState({
+                title: prop.title,
+                label: prop.label,
+                data: prop.data ? prop.data : this.state.data,
+            });
         }
     }
+
+    // componentWillReceiveProps(prop) {
+    //     this.setState({
+    //         title: prop.title,
+    //         label: prop.label,
+    //         data: prop.data ? prop.data : this.state.data,
+    //     });
+    //     if(this.state.disable != prop.disable){
+    //         this.setState({
+    //             disable: prop.disable
+    //         })
+    //     }
+    // }
 
     openModal() {
         if(this.ModalSelect){

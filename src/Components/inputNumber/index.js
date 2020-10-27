@@ -45,7 +45,7 @@ export default function InputNumber() {
         <Animatable.View ref={(ref) => this.ViewContainer = ref} style={styles.container}>
             <View style={styles.wrapContent}>
                 <Animatable.View ref={(ref) => this.ViewInputNumber = ref} style={[styles.wrapInput, { width: showInput ? '100%' : 0 }]}>
-                    <TextInput onChangeText={handerChnageInput} value={number} onSubmitEditing={SubmitInput} ref={(ref) => inputNumber = ref} keyboardType='number-pad' onBlur={onBlurInput} onFocus={onFocusInput} returnKeyType={number.trim() != ''?'done':''} placeholder='number' style={[styles.input, { display: showInput ? 'flex' : 'none' }]} />
+                    <TextInput onChangeText={handerChnageInput} value={number} onSubmitEditing={SubmitInput} ref={(ref) => inputNumber = ref} keyboardType='number-pad' onBlur={onBlurInput} onFocus={onFocusInput} returnKeyType={number.trim() != 'none'?'done':'none'} placeholder='number' style={[styles.input, { display: showInput ? 'flex' : 'none' }]} />
                     <TouchableOpacity onPress={() => hideInputNumber()} style={[styles.inputSubmit, { display: showInput ? 'flex' : 'none' }]}>
                         <Text style={{ color: Colors.white }}>Cancel</Text>
                     </TouchableOpacity>

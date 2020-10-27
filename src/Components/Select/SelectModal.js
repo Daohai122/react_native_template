@@ -46,19 +46,33 @@ export default class SelectModal extends Component {
         })
     }
 
-    componentWillReceiveProps(prop) {
-        if (this.state.selectId != prop.selectId) {
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.selectId != prevProps.selectId) {
             this.setState({
-                selectId: prop.selectId
+                selectId: this.props.selectId
             })
         }
-        if (this.state.data != prop.data) {
+        if (this.props.data != prevProps.data) {
             this.setState({
-                data: prop.data
+                data: this.props.data
             })
         }
-        
     }
+
+    // componentWillReceiveProps(prop) {
+    //     if (this.state.selectId != prop.selectId) {
+    //         this.setState({
+    //             selectId: prop.selectId
+    //         })
+    //     }
+    //     if (this.state.data != prop.data) {
+    //         this.setState({
+    //             data: prop.data
+    //         })
+    //     }
+        
+    // }
 
     render() {
         return (

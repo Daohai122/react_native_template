@@ -14,6 +14,7 @@ function SplashScreen({ navigation }) {
   useEffect( () => {
     async function checkLogin() {
       const res = await Mushroom.$auth.statusAsync();
+      console.warn('res', res)
       if(res) {
         navigation.dispatch(
           StackActions.replace('HomeScreen')

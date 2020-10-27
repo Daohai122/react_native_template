@@ -95,8 +95,7 @@ class HomeScreen extends Component {
             zIndex: 1,
           }}>
             <Header
-              // leftFunction={() => this.props.navigation.openDrawer()}
-              leftFunction={() => { }}
+              leftFunction={() => this.props.navigation.openDrawer()}
               IconLeft={{ name: "menu", type: "Ionicons" }}
               title={"Home"}
               rightFunction={() => this.props.navigation.navigate('SettingScreen')}

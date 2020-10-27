@@ -14,9 +14,9 @@ export default function SelectTable(props) {
     }, [props.ListTable]);
 
     useEffect(() => {
-        setTableSelect(props.tableSlect);
-        pressButton(props.tableSlect);
-    }, [props.tableSlect]);
+        setTableSelect(props.TabSelect);
+        pressButton(props.TabSelect);
+    }, [props.TabSelect]);
 
     function pressButton(item, setSelect) {
         setSelect && setTableSelect(item);

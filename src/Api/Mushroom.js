@@ -30,8 +30,8 @@ mushroom._defineAsyncResource({
 mushroom._defineAsyncResource({
     name: 'rouletteNumber',
     actions: {
-        findMany: { clientCache: true },
-        findById: { clientCache: true },
+        findMany: { clientCache: false },
+        findById: { clientCache: false },
         createOne: {},
         createMany: {},
         updatePartially: {},

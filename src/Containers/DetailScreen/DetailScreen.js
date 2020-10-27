@@ -7,24 +7,42 @@ import { fetchTableAction } from "../../Redux/Actions/Table";
 import ModalSelectTable from "../../Components/ModalSelectTable";
 import { configTab } from "./ListMethod";
 import TableExcel from "./Table/TableExcel";
+import RouletteNumberService from "../LiveScreen/LiveApi";
+
 function DetailScreen(props) {
-  const [tableSlect, settableSlect] = useState({});
+  const [TabSelect, setTabSelect] = useState(configTab[0]);
+  const [dataTableRender, setDataTableRender] = useState(null);
   const modalView = useRef();
   useEffect(() => {
     props.onFetchTable();
   }, []);
 
-  function handleSelectTable(table) {
-    settableSlect(table);
+  async function getListData() {
+    try {
+      const res = await RouletteNumberService.getNumbersAsync('5f6087597e6b4b144468c8d8', new Date(), 1, TabSelect.id);
+      if(res && res.result && res.result.DetailData && res.result.DetailData.length > 0) {
+        setDataTableRender(res.result);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  useEffect(() => {
+    getListData()
+  }, [TabSelect])
+
+  function handleSelectTable(tab) {
+    setTabSelect(tab);
   }
 
   return (
     <View style={styles.container}>
-      <SelectTable tableSlect={tableSlect} ListTable={configTab} toggleModal={modalView} handleSelectTable={handleSelectTable}/>
+      <SelectTable TabSelect={TabSelect} ListTable={configTab} toggleModal={modalView} handleSelectTable={handleSelectTable}/>
       <View style={{flex: 1, backgroundColor: 'red'}}>
-        <TableExcel/>
+        <TableExcel dataRender={dataTableRender} tabActive={TabSelect}/>
       </View>
-      <ModalSelectTable tableSlect={tableSlect} ref={modalView} ListTable={configTab} handleSelectTable={handleSelectTable}/>
+      <ModalSelectTable TabSelect={TabSelect} ref={modalView} ListTable={configTab} handleSelectTable={handleSelectTable}/>
     </View>
   )
 }

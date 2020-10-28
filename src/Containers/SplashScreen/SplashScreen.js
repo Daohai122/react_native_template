@@ -2,6 +2,7 @@ import React, {useEffect, useState, Component} from 'react';
 import styles from "./SplashScreenStyle";
 import { Images } from "../../Themes";
 import { StackActions } from '@react-navigation/native';
+import { connect } from 'react-redux'
 import Mushroom from "../../Api/Mushroom";
 
 import {
@@ -10,17 +11,19 @@ import {
   ImageBackground
 } from 'react-native';
 
-function SplashScreen({ navigation }) {
+function SplashScreen(props) {
   useEffect( () => {
     async function checkLogin() {
       const res = await Mushroom.$auth.statusAsync();
-      console.warn('res', res)
       if(res) {
-        navigation.dispatch(
-          StackActions.replace('HomeScreen')
-        );
+        props.onFetchInit();
+        setTimeout(() => {
+          props.navigation.dispatch(
+            StackActions.replace('HomeScreen')
+          );
+        }, 1500);
       } else {
-        navigation.dispatch(
+        props.navigation.dispatch(
           StackActions.replace('LoginScreen')
         );
       }
@@ -35,4 +38,13 @@ function SplashScreen({ navigation }) {
     </View>
   ); 
 };
-export default SplashScreen;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchInit: () => {
+      dispatch({type: 'FETCH_INIT'});
+    }
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)

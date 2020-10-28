@@ -28,7 +28,7 @@ function convertDataRes(dataRes, dataMax) {
 };
 function convertDataForU(dataRes, dataMax) {
   const header = ['No', ''];
-  const max = this.getMax(dataMax);
+  const max = getMax(dataMax);
   const data = [];
   const headerForU = [];
   // let isEmptyValue = true;

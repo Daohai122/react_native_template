@@ -3,26 +3,21 @@ import { View, Text } from "react-native";
 import { connect } from 'react-redux'
 import styles from "./DetailScreenStyle";
 import SelectTable from "../../Components/SelectTable";
-import { fetchTableAction } from "../../Redux/Actions/Table";
-import { fetchDealerAction } from "../../Redux/Actions/Dealer";
 
 import ModalSelectTable from "../../Components/ModalSelectTable";
 import { configTab } from "./ListMethod";
 import TableExcel from "./Table/TableExcel";
 import RouletteNumberService from "../LiveScreen/LiveApi";
+import InputNumber from "../../Components/inputNumber";
 
 function DetailScreen(props) {
   const [TabSelect, setTabSelect] = useState(configTab[0]);
   const [dataTableRender, setDataTableRender] = useState(null);
   const modalView = useRef();
-  useEffect(() => {
-    props.onFetchTable();
-    props.onFetchDealer();
-  }, []);
- 
+
   async function getListData() {
     try {
-      const res = await RouletteNumberService.getNumbersAsync('5f69828bcc8cab17b8d82577', new Date(), 1, TabSelect.id);
+      const res = await RouletteNumberService.getNumbersAsync(props.DataSetting.table, new Date(), 1, TabSelect.id);
       if(res && res.result && res.result.DetailData && res.result.DetailData.length > 0) {
         setDataTableRender(res.result);
       }
@@ -30,6 +25,10 @@ function DetailScreen(props) {
       console.warn(error);
     }
   }
+
+  useEffect(() => {
+    getListData();
+  }, [props.DataSetting.table]);
 
   useEffect(() => {
     getListData()
@@ -45,24 +44,13 @@ function DetailScreen(props) {
       <View style={{flex: 1, backgroundColor: 'red'}}>
         <TableExcel dataRender={dataTableRender} tabActive={TabSelect}/>
       </View>
+      <InputNumber dataSetting= {props.DataSetting}/>
       <ModalSelectTable TabSelect={TabSelect} ref={modalView} ListTable={configTab} handleSelectTable={handleSelectTable}/>
     </View>
   )
 }
 const mapStateToProps = (state) => ({
-  ListTable: state.TableReducers,
-  ListDealer: state.DealerReducer,
+  DataSetting: state.DataFillterReducers,
 })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchDealer: () => {
-      dispatch(fetchDealerAction())
-    },
-    onFetchTable: () => {
-      dispatch(fetchTableAction());
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen)
+export default connect(mapStateToProps, null)(DetailScreen)

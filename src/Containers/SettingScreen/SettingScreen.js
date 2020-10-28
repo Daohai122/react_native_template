@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { Header } from "../../Components/Header";
 import styles from "./SettingScreenStyle";
@@ -7,29 +7,26 @@ import moment from "moment";
 import DatePicker from "../../Components/SelectPickerDate";
 import { connect } from 'react-redux';
 import { SelectComponent } from "../../Components/Select";
+import { UPDATE_DATAFILLTER } from "../../Redux/Actions/DataFillter/Action";
 
 function SettingScreen(props) {
     const timePicker = useRef(null);
     const datePicker = useRef(null);
     const modalSelectTable = useRef(null);
     const modalSelectDealer = useRef(null);
-    const [dataSetting, setDataSetting] = useState({
-        table: '',
-        tableName: null,
-        dealerName: null,
-        dealer: '',
-        date: new Date(),
-        time: new Date()
-    });
+    const [dataSetting, setDataSetting] = useState(props.DataSetting);
+    
     function getTime(time) {
         const data = {...dataSetting};
         data.time = time;
+        props.updateDataSetting(data);
         setDataSetting(data);
     }
 
     function getDate(date) {
        const data = {...dataSetting};
        data.date = date;
+       props.updateDataSetting(data);
        setDataSetting(data);
     }
 
@@ -37,6 +34,7 @@ function SettingScreen(props) {
         const data = {...dataSetting};
         data.tableName = res.name;
         data.table = res.id;
+        props.updateDataSetting(data);
         setDataSetting(data);
     }
 
@@ -44,8 +42,14 @@ function SettingScreen(props) {
         const data = {...dataSetting};
         data.dealerName = res.name;
         data.dealer = res.id;
+        props.updateDataSetting(data);
         setDataSetting(data);
     }
+
+    useEffect(() => {
+        console.warn(props.DataSetting);
+    }, [props.DataSetting]);
+
     return (
         <View style={{ flex: 1 }}>
             <Header leftFunction={() => props.navigation.goBack()} IconLeft={{ name: "arrow-back", type: "Ionicons" }} title='Setting' />
@@ -78,6 +82,7 @@ function SettingScreen(props) {
                         <Icon style={{ fontSize: 20, color: '#525354' }} name='calendar' type='SimpleLineIcons' />
                     </TouchableOpacity>
                 </View>
+                <Text onPress={() => props.updateDataSetting(dataSetting)}>updadta</Text>
                 <DatePicker mode='time' date={dataSetting.time} selectDate={getTime} ref={timePicker}/>
                 <DatePicker date={dataSetting.time} selectDate={getDate} ref={datePicker}/>
                 <SelectComponent ConfigSelect={{ id: 'id', label: 'name' }} ref={modalSelectTable} title="Select Table" data={props.ListTable} getItem={handleChangeTable} />
@@ -88,7 +93,16 @@ function SettingScreen(props) {
 }
 const mapStateToProps = (state) => ({
     ListTable: state.TableReducers,
-    ListDealer: state.DealerReducers
+    ListDealer: state.DealerReducers,
+    DataSetting: state.DataFillterReducers
 })
-export default connect(mapStateToProps, null)(SettingScreen)
+const mapDispatchToProps = (dispatch) => {
+    return {
+      updateDataSetting: (data) => {
+        dispatch({ type: UPDATE_DATAFILLTER, payload: data})
+      },
+      
+    };
+  };
+export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen)
   

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, Animated, ScrollView, TouchableOpacity } from "react-native";
 import { Colors, UtillSize } from "../../Themes";
+import { connect } from 'react-redux';
 import styles from "./LiveScreenStyle";
 const NAVBAR_HEIGHT = UtillSize.headerHeight;
 import LiveApi from "./LiveApi";
@@ -31,13 +32,13 @@ const widthNumber = 55;
 const widthMaxAll = 55;
 const widthMaxToday = 70;
 
-export default function LiveScreen({ navigation, scroll }) {
+function LiveScreen(props) {
     const [listResult, setListResult] = useState([]);
     const [listLast, setListLast] = useState([]);
     useEffect(() => {
         async function getResult() {
             try {
-                const resp = await LiveApi.getNumbersAsync('5f6087597e6b4b144468c8d8', new Date(), 0);
+                const resp = await LiveApi.getNumbersAsync(props.DataSetting.table, new Date(), 0);
                 console.log('resp', resp);
                 if (resp && resp.result) {
                     resp.result[0] && resp.result[0].LiveData && setListResult(convertResultData(resp.result[0].LiveData));
@@ -49,7 +50,7 @@ export default function LiveScreen({ navigation, scroll }) {
 
         }
         getResult();
-    }, [])
+    }, [props.DataSetting.table])
 
     return (
         <View style={[styles.Container, { paddingTop: NAVBAR_HEIGHT }]}>
@@ -152,7 +153,12 @@ export default function LiveScreen({ navigation, scroll }) {
                 </View>
             </View>
             {/* </Animated.ScrollView> */}
-            <InputNumber />
+            {/* <InputNumber dataSetting= {props.DataSetting}/> */}
         </View>
     )
 }
+const mapStateToProps = (state) => ({
+    DataSetting: state.DataFillterReducers
+})
+
+export default connect(mapStateToProps, null)(LiveScreen)

@@ -87,7 +87,7 @@ function LiveScreen(props) {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {listResult.map((e, i) => {
                             return (
-                                <View style={styles.resultElement} key={i}>
+                                <TouchableOpacity style={styles.resultElement} key={i} onPress={() => props.navigation.navigate('LiveDetailScreen')}>
                                     <View style={[styles.wrapElementResult, { width: widthMethod }]}>
                                         <Text>{'N' + i}</Text>
                                     </View>
@@ -105,7 +105,7 @@ function LiveScreen(props) {
                                             <Icon name='arrow-forward' type='Ionicons' style={{ color: '#bdbdbd', fontSize: 20 }} />
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                         })}
                     </ScrollView>

@@ -26,9 +26,9 @@ function* fetchInit() {
             time: new Date()
         }
         yield all([
-            put({ type: UPDATE_DATAFILLTER, payload: dataSetting }),
             put({ type: FETCH_TABLE_SUCCSES, table: table.result ?? [] }),
             put({ type: FETCH_DEALER_SUCCSES, dealer: dealer.result ?? [] }),
+            put({ type: UPDATE_DATAFILLTER, payload: dataSetting })
         ]);
 
     } catch (error) {

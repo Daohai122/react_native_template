@@ -7,6 +7,7 @@ import LoginScreen from "../Containers/LoginScreen/LoginScreen";
 import LiveScreenStack from "../Containers/LiveScreen/LiveScreen";
 import SettingScreen from "../Containers/SettingScreen/SettingScreen";
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import LiveDetailScreen from "../Containers/LiveScreen/LiveDetailScreen";
 import DrawerContent from "../Components/DrawerContent/DrawerContent";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -36,6 +37,7 @@ export default function AppNavigator() {
         <Stack.Screen name="HomeScreen" component={Home} />
         <Stack.Screen name="LiveScreenStack" component={LiveScreenStack} />
         <Stack.Screen name="SettingScreen" component={SettingScreen} />
+        <Stack.Screen name="LiveDetailScreen" component={LiveDetailScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,9 +5,11 @@ import { Icon} from 'native-base';
 import { ShowMessage } from "../Message";
 import * as Animatable from 'react-native-animatable';
 import RouletteNumberService from "../../Containers/LiveScreen/LiveApi";
-const heightKeyboard = 280
+const heightKeyboard = 280;
+
+const messErrorInput = 'Input number fail';
+
 export default function InputNumber(props) {
-    console.warn('input', props);
     const [showInput, setShowInput] = useState(false);
     const [number, setNumber] = useState('');
     inputNumber = null;
@@ -41,11 +43,22 @@ export default function InputNumber(props) {
         }
     }
     const SubmitInput = async () => {
-        hideInputNumber();
-        const {dataSetting} = props;
-        setTimeout( async() => {
-            const res = await RouletteNumberService.insertNumbersAsync(dataSetting.dealer, dataSetting.table, [number], new Date());
-        }, 300);
+        try {
+            hideInputNumber();
+            const {dataSetting} = props;
+            setTimeout( async() => {
+                const res = await RouletteNumberService.insertNumbersAsync(dataSetting.dealer, dataSetting.table, [number], new Date());
+                if(res) {
+                    ShowMessage('Successfull!', 'success');
+                    props.callBack();
+                } else {
+                    ShowMessage(messErrorInput, 'danger');
+                }
+            }, 300);
+        } catch (error) {
+            ShowMessage(messErrorInput, 'danger');
+            console.log(error);
+        }
     };
 
     return (

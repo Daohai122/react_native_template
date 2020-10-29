@@ -11,11 +11,23 @@ import { NavHeader } from '../Header';
 import { Fonts, Colors } from '../../Themes';
 import { Icon } from 'native-base';
 import ToggleSwitch from 'toggle-switch-react-native'
+import Mushroom from "../../Api/Mushroom";
+import { connect } from "react-redux";
+import { StackActions } from "@react-navigation/native";
 
-function DrawerContent() {
+function DrawerContent({navigation, updateDataSetting}) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  async function logOut() {
+    try {
+      const res = await Mushroom.$auth.logoutAsync();
+      // xoa du lieu init 
+      updateDataSetting({});
+      navigation.dispatch(StackActions.replace("LoginScreen"));
+    } catch (error) {
+      navigation.dispatch(StackActions.replace("LoginScreen"));
+    }
+  }
   return (
     <View style={{ flex: 1 }}>
       <NavHeader />
@@ -62,7 +74,7 @@ function DrawerContent() {
           </View>
         </View>
         <View style={{ marginTop: 5 }}>
-          <TouchableOpacity style={styles.item}>
+          <TouchableOpacity style={styles.item} onPress={logOut}>
             <View style={styles.wrapIcon}>
               <Icon
                 name="logout"
@@ -99,4 +111,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DrawerContent;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateDataSetting: (data) => {
+      dispatch({ type: UPDATE_DATAFILLTER, payload: {data}})
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(DrawerContent);

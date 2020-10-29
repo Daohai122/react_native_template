@@ -14,7 +14,6 @@ function DetailScreen(props) {
   const [TabSelect, setTabSelect] = useState(configTab[0]);
   const [dataTableRender, setDataTableRender] = useState(null);
   const modalView = useRef();
-
   async function getListData() {
     try {
       const res = await RouletteNumberService.getNumbersAsync(props.DataSetting.table, new Date(), 1, TabSelect.id);
@@ -25,7 +24,6 @@ function DetailScreen(props) {
       console.warn(error);
     }
   }
-
   useEffect(() => {
     getListData();
   }, [props.DataSetting.table]);
@@ -44,7 +42,7 @@ function DetailScreen(props) {
       <View style={{flex: 1, backgroundColor: 'red'}}>
         <TableExcel dataRender={dataTableRender} tabActive={TabSelect}/>
       </View>
-      <InputNumber dataSetting= {props.DataSetting}/>
+      <InputNumber dataSetting= {props.DataSetting} callBack={getListData}/>
       <ModalSelectTable TabSelect={TabSelect} ref={modalView} ListTable={configTab} handleSelectTable={handleSelectTable}/>
     </View>
   )

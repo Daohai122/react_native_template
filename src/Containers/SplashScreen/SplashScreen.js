@@ -14,22 +14,36 @@ import {
 function SplashScreen(props) {
   useEffect( () => {
     async function checkLogin() {
-      const res = await Mushroom.$auth.statusAsync();
-      if(res) {
-        props.onFetchInit();
-        setTimeout(() => {
+      try {
+        const res = await Mushroom.$auth.meAsync();
+        console.warn('res', res)
+        if(res && res.result) {
+          props.onFetchInit();
+        } else {
           props.navigation.dispatch(
-            StackActions.replace('HomeScreen')
+            StackActions.replace('LoginScreen')
           );
-        }, 1500);
-      } else {
+        }
+      } catch (error) {
+        console.warn('error', error)
+
         props.navigation.dispatch(
           StackActions.replace('LoginScreen')
         );
       }
+      
     }
     checkLogin();
   }, []);
+
+  useEffect(() => {
+    if(props.DataSetting && props.DataSetting.table) {
+      props.navigation.dispatch(
+        StackActions.replace('HomeScreen')
+      );
+    }
+  }, [props.DataSetting]);
+  
   return ( 
     <View style={styles.Container}>
       <ImageBackground source={Images.ImageBackground} style={{flex:1}}>
@@ -38,7 +52,9 @@ function SplashScreen(props) {
     </View>
   ); 
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  DataSetting: state.DataFillterReducers
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {

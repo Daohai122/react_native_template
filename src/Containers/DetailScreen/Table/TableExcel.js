@@ -3,8 +3,7 @@ import { StyleSheet, View, Dimensions, ScrollView, Text } from 'react-native';
 import { Table, Row, Rows, Col, TableWrapper, Cell } from 'react-native-table-component';
 import ConverData from "./ConverData";
 import NumberColor from "../../HistoryScreen/NumberColor";
-const ww = 35;
-const hightColumn = 30;
+
 export default class TableExcel extends Component {
     constructor(props) {
         super(props);
@@ -14,17 +13,25 @@ export default class TableExcel extends Component {
                 header: [],
                 bodyFix: [],
                 body: []
-            }
+            },
+            ww: 40,
         };
         this.headerIsScrolling = false;
         this.rowsIsScrolling = false;
+        this.hightColumn = 30;
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.tabActive.id != prevProps.tabActive.id) {
+            this.setState({
+                ww: this.props.tabActive.id === 'data' ? 40 : 35
+            })
+        }
         if (this.props.dataRender && this.props.dataRender.DetailData.length > 0 && this.props.dataRender != prevProps.dataRender) {
             this.getData(this.props.dataRender);
         }
     }
     getData(data) {
+        console.warn(data);
         const dataConver = ConverData(data, this.props.tabActive);
         this.convertDataForRender(dataConver);
     }
@@ -66,7 +73,7 @@ export default class TableExcel extends Component {
         const listWidth = [];
         if (data[0] && data[0].length > 0) {
             for (let i = 0; i < data[0].length; i++) {
-                listWidth.push(ww)
+                listWidth.push(this.state.ww)
             }
             return listWidth;
         }
@@ -76,15 +83,15 @@ export default class TableExcel extends Component {
         return (
             <View style={styles.container}>
                 {this.state.dataRender.body[0] && <>
-                    <View style={{ height: hightColumn * 2 }}>
+                    <View style={{ height: this.hightColumn * 2 }}>
                         <ScrollView >
                             <View style={{ flexDirection: 'row' }}>
                                 <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
                                     <Rows
                                         data={this.state.dataRender.headerFix}
                                         textStyle={styles.text}
-                                        style={{ height: hightColumn, backgroundColor: '#537791' }}
-                                        widthArr={[ww, ww]}
+                                        style={{ height: this.hightColumn, backgroundColor: '#537791' }}
+                                        widthArr={[this.state.ww, this.state.ww]}
                                     />
                                 </Table>
                                 <ScrollView
@@ -110,7 +117,7 @@ export default class TableExcel extends Component {
                                                 <TableWrapper key={index} style={{ flexDirection: 'row', backgroundColor: '#537791' }}>
                                                     {
                                                         rowData.map((cellData, cellIndex) => (
-                                                            <Cell height={hightColumn} width={ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: index===0 ? 'yellow':'black'}]} />
+                                                            <Cell height={this.hightColumn} width={this.state.ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: index===0 ? 'yellow':'black'}]} />
                                                         ))
                                                     }
                                                 </TableWrapper>
@@ -129,7 +136,7 @@ export default class TableExcel extends Component {
                                         <TableWrapper key={index} style={{ flexDirection: 'row' }}>
                                             {
                                                 rowData.map((cellData, cellIndex) => (
-                                                    <Cell height={hightColumn} width={ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: cellIndex === 1 ? NumberColor[cellData] : 'black'}]} />
+                                                    <Cell height={this.hightColumn} width={this.state.ww} key={cellIndex} data={cellData} textStyle={[styles.text, {color: cellIndex === 1 ? NumberColor[cellData] : 'black'}]} />
                                                 ))
                                             }
                                         </TableWrapper>
@@ -156,7 +163,7 @@ export default class TableExcel extends Component {
                                     <Rows
                                         data={this.state.dataRender.body}
                                         textStyle={styles.text}
-                                        style={{ height: hightColumn }}
+                                        style={{ height: this.hightColumn }}
                                         widthArr={this.getListWidth()}
                                     />
                                 </Table>

@@ -3,7 +3,17 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
 import styles from "./HeaderStyle";
 import NavHeader from "./NavHeader";
-export default class Header extends Component {
+import PropTypes from "prop-types";
+
+type Props = {
+  title: string,
+  NoNavHeader: Boolean,
+  IconLeft: Object,
+  IconRight: Object,
+  rightFunction: Function,
+  leftFunction: Function
+}
+class Header extends Component<Props> {
   constructor(props) {
     super(props);
   }
@@ -57,5 +67,15 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.PropTypes = {
+  title: PropTypes.string,
+  NoNavHeader: PropTypes.bool,
+  IconLeft: PropTypes.object,
+  IconRight: PropTypes.object,
+  rightFunction: PropTypes.func,
+  leftFunction: PropTypes.func
+}
+export default Header;
 
 

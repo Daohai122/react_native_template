@@ -18,7 +18,7 @@ function convertDataRes(dataRes, dataMax) {
       if (index === 0) {
         header.push(i.Key);
       }
-      itemInData.push(isEmptyValue(i) ? 0 : i.Value.Values.count);
+      itemInData.push(isEmptyValue(i) ? '' : i.Value.Values.count);
     });
     data.push(itemInData);
   });
@@ -63,7 +63,7 @@ function convertDataForU(dataRes, dataMax) {
           max[indexChild + 2] = e.Values[i];
         }
       }
-      itemInData.push((e.Values[i] === undefined || e.Values[i] === 0) ? 0 : e.Values[i]);
+      itemInData.push((e.Values[i] === undefined || e.Values[i] === 0) ? '' : e.Values[i]);
     });
     data.push(itemInData);
   });
@@ -104,7 +104,7 @@ export default ConverData = (dataGoc, type) => {
             max[i + 2] = e.Values[i];
           }
         }
-        itemInData.push((e.Values[i] === undefined || e.Values[i] === 0) ? 0 : e.Values[i]);
+        itemInData.push((e.Values[i] === undefined || e.Values[i] === 0) ? '' : e.Values[i]);
       });
       data.push(itemInData);
     });

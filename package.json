@@ -27,6 +27,7 @@
     "mushroomjs-file": "^1.0.0",
     "native-base": "^2.13.12",
     "prop-type": "0.0.1",
+    "prop-types": "^15.7.2",
     "react": "16.11.0",
     "react-native": "^0.63.3",
     "react-native-chart-kit": "^6.6.1",

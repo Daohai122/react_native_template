@@ -47,7 +47,7 @@ function SettingScreen(props) {
     }
 
     useEffect(() => {
-        console.warn(props.DataSetting);
+        // console.warn(props.DataSetting);
     }, [props.DataSetting]);
 
     return (

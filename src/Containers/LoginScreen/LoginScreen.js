@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./LoginScreenStyle";
 import {
   Text,
@@ -12,10 +12,12 @@ import { StackActions } from "@react-navigation/native";
 import { ShowMessage } from "../../Components/Message";
 import * as Animatable from 'react-native-animatable';
 import Mushroom from "../../Api/Mushroom";
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
 
-function LoginScreen({ onFetchUser, user, navigation }) {
+function LoginScreen({ onFetchInit, navigation, DataSetting }) {
+  const [callApi, setCallApi] = useState(false)
   const [login, ChangeLogin] = useState({ UserName: "", PassWord: "" });
   const handerChange = (value, name) => {
     ChangeLogin((prevState) => ({
@@ -58,11 +60,20 @@ function LoginScreen({ onFetchUser, user, navigation }) {
       ShowMessage('Please input your password!','danger');
       return;
     }
+    setCallApi(true);
     let res = await Mushroom.$auth.loginAsync(login.UserName, login.PassWord, true);
     if(res && res.result) {
-      navigation.dispatch(StackActions.replace("HomeScreen"));
+      onFetchInit();
+      // navigation.dispatch(StackActions.replace("HomeScreen"));
     }
   };
+  useEffect(() => {
+    if(DataSetting && DataSetting.table && callApi) {
+      navigation.dispatch(
+        StackActions.replace('HomeScreen')
+      );
+    }
+  }, [DataSetting]);
 
   return (
     <View style={styles.Container}>
@@ -129,4 +140,15 @@ function LoginScreen({ onFetchUser, user, navigation }) {
     </View>
   );
 }
-export default LoginScreen;
+const mapStateToProps = (state) => ({
+  DataSetting: state.DataFillterReducers
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchInit: () => {
+      dispatch({type: 'FETCH_INIT'});
+    }
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

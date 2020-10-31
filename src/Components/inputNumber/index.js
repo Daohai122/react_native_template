@@ -4,20 +4,26 @@ import { Colors, UtillSize } from "../../Themes";
 import { Icon} from 'native-base';
 import { ShowMessage } from "../Message";
 import * as Animatable from 'react-native-animatable';
+import { connect } from "react-redux";
 import RouletteNumberService from "../../Containers/LiveScreen/LiveApi";
+import { ADD_NUMBER } from "../../Redux/Actions/Addnumber/Action";
 const heightKeyboard = 280;
 
 const messErrorInput = 'Input number fail';
 
-export default function InputNumber(props) {
+function InputNumber(props) {
     const [showInput, setShowInput] = useState(false);
     const [number, setNumber] = useState('');
+    const [show, setShow] = useState(true)
     inputNumber = null;
     function showInputNumber() {
         setShowInput(true);
         this.ViewInputNumber.transitionTo({ width: UtillSize.screenWidth - 20 });
-        inputNumber.focus();
+        inputNumber&&inputNumber.focus();
     }
+    useEffect(() => {
+        setShow(props.indexTabActive < 2 ? true : false)
+    }, [props.indexTabActive])
     function hideInputNumber() {
         setNumber('')
         Keyboard.dismiss();
@@ -42,6 +48,7 @@ export default function InputNumber(props) {
             ShowMessage('Number <= 36!', 'warning');
         }
     }
+
     const SubmitInput = async () => {
         try {
             hideInputNumber();
@@ -49,8 +56,8 @@ export default function InputNumber(props) {
             setTimeout( async() => {
                 const res = await RouletteNumberService.insertNumbersAsync(dataSetting.dealer, dataSetting.table, [number], new Date());
                 if(res) {
+                    props.Addnumber();
                     ShowMessage('Successfull!', 'success');
-                    props.callBack();
                 } else {
                     ShowMessage(messErrorInput, 'danger');
                 }
@@ -62,7 +69,7 @@ export default function InputNumber(props) {
     };
 
     return (
-        <Animatable.View ref={(ref) => this.ViewContainer = ref} style={styles.container}>
+        <Animatable.View ref={(ref) => this.ViewContainer = ref} style={[styles.container, {display: show ? 'flex' : 'none'}]}>
             <View style={styles.wrapContent}>
                 <Animatable.View ref={(ref) => this.ViewInputNumber = ref} style={[styles.wrapInput, { width: showInput ? '100%' : 0 }]}>
                     <TextInput onChangeText={handerChnageInput} value={number} onSubmitEditing={SubmitInput} ref={(ref) => inputNumber = ref} keyboardType='number-pad' onBlur={onBlurInput} onFocus={onFocusInput} returnKeyType={number.trim() != ''?'done':'default'} placeholder='number' style={[styles.input, { display: showInput ? 'flex' : 'none' }]} />
@@ -77,6 +84,18 @@ export default function InputNumber(props) {
         </Animatable.View>
     )
 }
+const mapStateToProps = (state) => ({
+    dataSetting: state.DataFillterReducers
+})
+const mapDispatchToProps = (dispatch) => {
+    return {
+      Addnumber: () => {
+        dispatch({ type: ADD_NUMBER})
+      },
+    };
+  };
+export default connect(mapStateToProps, mapDispatchToProps)(InputNumber)
+
 
 const heightViewInput = 45;
 const borderViewRadius = 8;
@@ -84,7 +103,7 @@ const witdhInputSubmit = 55;
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
         width: '100%'
     },
     wrapContent: {

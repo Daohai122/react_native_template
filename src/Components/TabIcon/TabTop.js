@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Colors } from "../../Themes";
-export default function TabTop({ state, descriptors, navigation, position , configTab}) {
+export default function TabTop({ state, descriptors, navigation, position , configTab, callBackPressTab}) {
   return (
     <View style={{ flexDirection: 'row' }}>
       {state.routes.map((route, index) => {
@@ -11,12 +11,13 @@ export default function TabTop({ state, descriptors, navigation, position , conf
         const isFocused = state.index === index;
 
         const onPress = () => {
+          console.warn('route.key', route, index)
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
-
+          callBackPressTab(index);
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
           }
@@ -27,6 +28,7 @@ export default function TabTop({ state, descriptors, navigation, position , conf
             type: 'tabLongPress',
             target: route.key,
           });
+          callBackPressTab(index);
         };
         return (
           <TouchableOpacity

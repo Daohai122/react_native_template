@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styles from "./LiveScreenStyle";
 const NAVBAR_HEIGHT = UtillSize.headerHeight;
 import LiveApi from "./LiveApi";
-import InputNumber from "../../Components/inputNumber";
 import { Icon } from 'native-base';
 function convertResultData(data) {
     let dataReturn = [];
@@ -16,7 +15,9 @@ function convertResultData(data) {
                 dataReturn.push({
                     name: i.MethodName,
                     number: [i.Number],
-                    max: i.Count
+                    max: i.Max,
+                    Cond: i.Cond,
+                    Count: i.Count
                 })
             } else {
                 dataReturn[index].number.push(i.Number);
@@ -35,36 +36,38 @@ const widthMaxToday = 70;
 function LiveScreen(props) {
     const [listResult, setListResult] = useState([]);
     const [listLast, setListLast] = useState([]);
-    useEffect(() => {
-        async function getResult() {
-            try {
-                const resp = await LiveApi.getNumbersAsync(props.DataSetting.table, new Date(), 0);
-                console.log('resp', resp);
-                if (resp && resp.result) {
-                    resp.result[0] && resp.result[0].LiveData && setListResult(convertResultData(resp.result[0].LiveData));
-                    resp.result[1] && resp.result[1].LiveData && setListLast(resp.result[1].LiveData);
-                }
-            } catch (err) {
-                console.log('loi', err)
-            }
 
+    async function getResult() {
+        try {
+            const resp = await LiveApi.getNumbersAsync(props.DataSetting.table, new Date(), 0);
+            console.warn('res', resp.result)
+
+            if (resp && resp.result) {
+                resp.result[0] && resp.result[0].LiveData && setListResult(convertResultData(resp.result[0].LiveData));
+                resp.result[1] && resp.result[1].LiveData && setListLast(resp.result[1].LiveData);
+                setTimeout(() => {
+                    console.warn('listResult', listResult)
+                }, 1000);
+            }
+        } catch (err) {
+            console.log('loi', err)
         }
+
+    }
+
+    useEffect(() => {
         getResult();
-    }, [props.DataSetting.table])
+    }, [props.DataSetting.table]);
+
+    // get table when inputnumber change
+    useEffect(() => {
+        if (props.ReloadData > 0) {
+            getResult();
+        };
+    }, [props.ReloadData]);
 
     return (
         <View style={[styles.Container, { paddingTop: NAVBAR_HEIGHT }]}>
-            {/* <Animated.ScrollView
-                scrollEventThrottle={1}
-                bounces={false}
-                showsVerticalScrollIndicator={false}
-                style={{ zIndex: 0, height: "100%", elevation: -1 }}
-                contentContainerStyle={{ paddingTop: NAVBAR_HEIGHT }}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scroll } } }],
-                    { useNativeDriver: true },
-                )}
-                overScrollMode="never"> */}
             <View style={styles.wrapResult}>
                 <View style={styles.resultHeader}>
                     <Text style={styles.textResultHeader}>RESULT</Text>
@@ -87,7 +90,7 @@ function LiveScreen(props) {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {listResult.map((e, i) => {
                             return (
-                                <TouchableOpacity style={styles.resultElement} key={i} onPress={() => props.navigation.navigate('LiveDetailScreen')}>
+                                <TouchableOpacity style={styles.resultElement} key={i} onPress={() => props.navigation.navigate('LiveDetailScreen', {liveDetail: e})}>
                                     <View style={[styles.wrapElementResult, { width: widthMethod }]}>
                                         <Text>{'N' + i}</Text>
                                     </View>
@@ -158,7 +161,8 @@ function LiveScreen(props) {
     )
 }
 const mapStateToProps = (state) => ({
-    DataSetting: state.DataFillterReducers
+    DataSetting: state.DataFillterReducers,
+    ReloadData: state.DataReloadAddNumber
 })
 
 export default connect(mapStateToProps, null)(LiveScreen)

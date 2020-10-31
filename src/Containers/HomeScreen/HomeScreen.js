@@ -15,6 +15,7 @@ import LiveScreen from "../LiveScreen/LiveScreen";
 import SearchScreen from "../SearchScreen";
 import DetailScreen from "../DetailScreen/DetailScreen";
 import HistoryScreen from "../HistoryScreen/HistoryScreen";
+import InputNumber from "../../Components/inputNumber";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,16 +30,6 @@ class HomeScreen extends Component {
       indexTabActive: 0,
       configTab: [
         {
-          screen: "DetailScreen",
-          component: DetailScreen,
-          icon: {
-            nameIcon: "profile",
-            typeIcon: "AntDesign",
-            title: "Detail",
-            // number: 0,
-          },
-        },
-        {
           screen: "LiveScreen",
           component: LiveScreen,
           icon: {
@@ -48,7 +39,16 @@ class HomeScreen extends Component {
             // number: 0,
           },
         },
-       
+        {
+          screen: "DetailScreen",
+          component: DetailScreen,
+          icon: {
+            nameIcon: "profile",
+            typeIcon: "AntDesign",
+            title: "Detail",
+            // number: 0,
+          },
+        },
         {
           screen: "SearchScreen",
           component: SearchScreen,
@@ -71,15 +71,18 @@ class HomeScreen extends Component {
         }
       ]
     };
+    this.getTab = this.getTab.bind(this);
   }
   getScroll(data) {
-    alert(data);
+    // alert(data);
   }
-  componentDidMount() {
-    setTimeout(() => {
-      // this.props.navigation.navigate('LiveScreenStack');
-    }, 1000);
+
+  getTab(TabIndex) {
+    this.setState({
+      indexTabActive: TabIndex
+    });
   }
+
   render() {
     const tabY = Animated.add(NAVBAR_HEIGHT, this.headerY);
     return (
@@ -117,7 +120,7 @@ class HomeScreen extends Component {
                     shadowRadius: 3,
                     elevation: 5,
                     shadowColor: '#e0e0e0'
-                  }}><TabTop {...props} configTab={this.state.configTab}/></Animated.View>}
+                  }}><TabTop {...props} callBackPressTab={this.getTab} configTab={this.state.configTab}/></Animated.View>}
               >
                 {this.state.configTab.map((item, index) => {
                   return (
@@ -127,6 +130,7 @@ class HomeScreen extends Component {
                   );
                 })}
               </Tab.Navigator>
+              <InputNumber indexTabActive={this.state.indexTabActive}/>
         </SafeAreaView>
       </View>
     );

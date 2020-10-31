@@ -31,7 +31,6 @@ export default class TableExcel extends Component {
         }
     }
     getData(data) {
-        console.warn(data);
         const dataConver = ConverData(data, this.props.tabActive);
         this.convertDataForRender(dataConver);
     }
